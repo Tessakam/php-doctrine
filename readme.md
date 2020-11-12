@@ -1,3 +1,8 @@
+# Migration?
+- import.sql niet nodig! In Doctrine een nieuw schema maken
+- env. file kopieren met env.local (key/user/pw/name schema aanpassen)
+- nieuw migratie maken via terminal: "symfony console make:migration"
+
 # Title: Doctrine
 
 - Repository: `php-doctrine`

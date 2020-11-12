@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\TeacherRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TeacherRepository::class)
+ * @ORM\Entity(repositoryClass=StudentRepository::class)
  */
-class Teacher
+class Student
 {
     /**
      * @ORM\Id()
@@ -39,14 +38,10 @@ class Teacher
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=Student::class, mappedBy="teacher", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="students")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $students;
-
-    public function __construct()
-    {
-        $this->students = new ArrayCollection();
-    }
+    private $teacher;
 
     public function getId(): ?int
     {
@@ -100,4 +95,17 @@ class Teacher
 
         return $this;
     }
+
+    public function getTeacher(): ?Teacher
+    {
+        return $this->teacher;
+    }
+
+    public function setTeacher(?Teacher $teacher): self
+    {
+        $this->teacher = $teacher;
+
+        return $this;
+    }
+
 }
