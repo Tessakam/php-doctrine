@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeacherController extends AbstractController
 {
     /**
-     * @Route("/teacher", name="teacher")
+     * @Route("/teacher", name="teacher", methods={"GET"})
      * @param Request $request
      * @return JsonResponse
      */
@@ -46,18 +46,26 @@ class TeacherController extends AbstractController
         $teacher->setAddress($address);
         $this->getDoctrine()->getManager()->persist($teacher);
         $this->getDoctrine()->getManager()->flush();
-        return new JsonResponse();
 
-        var_dump(json_decode($data));
+        $message = "Congrats! Teacher added!";
+        return new JsonResponse($message);
+
+        //var_dump(json_decode($data));
         //json_decode($data,JSON_PRETTY_PRINT);
     }
 
+    public function getAllTeachers(): JsonResponse
+    {
+        $teacherRepository = $this->getDoctrine()->getRepository(Teacher::class);
+        $teachers = $teacherRepository->findAll();
+
+        $data = []; //don't forget to define variable
+        foreach ($teachers as $teacher) {
+            $data[] = $teacher->toArray();
+        }
+        return new JsonResponse($data[]);
+    }
 
 }
 
-/*public function index(): Response
-{
-    return $this->render('teacher/index.html.twig', [
-        'controller_name' => 'TeacherController',
-    ]);
-}*/
+
